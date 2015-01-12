@@ -17,14 +17,39 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Dialog.h"
-#include <QApplication>
+#ifndef EXPLOSIONOFTANK_H
+#define EXPLOSIONOFTANK_H
 
-int main(int argc, char *argv[])
+#include <QTimer>
+#include <QObject>
+#include "Plane.h"
+#include <vector>
+
+class ExplosionOfTank : public QObject, public Plane
 {
-    QApplication a(argc, argv);
-    Dialog w;
-    w.show();
+    Q_OBJECT
 
-    return a.exec();
-}
+public:
+    ExplosionOfTank( QOpenGLShaderProgram *program, int vertexAttr,
+                     int textureAttr, int textureUniform );
+    ~ExplosionOfTank();
+
+    void start();
+
+    int id() const;
+
+signals:
+    void signalShowTankExplosion( int id, bool show );
+
+private slots:
+    void slotShowTankExplosion();
+
+private:
+    void genTextures();
+    std::vector<QOpenGLTexture*> m_textures;
+    QTimer m_timer;
+    int m_id;
+    static int m_nextId;
+};
+
+#endif // EXPLOSIONOFTANK_H

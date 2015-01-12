@@ -4,7 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui multimedia
+
+CONFIG += c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,16 +19,33 @@ SOURCES += main.cpp\
     Scene.cpp \
     Ice.cpp \
     Tank.cpp \
-    Plane.cpp
+    Plane.cpp \
+    Projectile.cpp \
+    SmallExplosion.cpp \
+    LargeExplosion.cpp \
+    SoundOfShot.cpp \
+    SoundOfTankExplosion.cpp \
+    SoundOfProjectileExplosion.cpp \
+    ExplosionOfProjectile.cpp \
+    ExplosionOfTank.cpp
 
 HEADERS  += Dialog.h \
     Scene.h \
     Ice.h \
     Tank.h \
-    Plane.h
+    Plane.h \
+    Projectile.h \
+    SmallExplosion.h \
+    LargeExplosion.h \
+    SoundOfShot.h \
+    SoundOfTankExplosion.h \
+    SoundOfProjectileExplosion.h \
+    ExplosionOfProjectile.h \
+    ExplosionOfTank.h
 
 FORMS    += Dialog.ui
 
 RESOURCES += \
     Shaders.qrc \
-    Textures.qrc
+    Textures.qrc \
+    Sounds.qrc

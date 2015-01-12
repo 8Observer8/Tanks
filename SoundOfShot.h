@@ -17,14 +17,23 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Dialog.h"
-#include <QApplication>
+#ifndef SOUNDOFSHOT_H
+#define SOUNDOFSHOT_H
 
-int main(int argc, char *argv[])
+#include <QRunnable>
+#include <QSoundEffect>
+
+class SoundOfShot : public QRunnable
 {
-    QApplication a(argc, argv);
-    Dialog w;
-    w.show();
+public:
+    SoundOfShot();
+    ~SoundOfShot();
 
-    return a.exec();
-}
+protected:
+    void run();
+
+private:
+    QSoundEffect m_sound;
+};
+
+#endif // SOUNDOFSHOT_H

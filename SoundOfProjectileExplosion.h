@@ -17,14 +17,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Dialog.h"
-#include <QApplication>
+#ifndef SOUNDOFPROJECTILEEXPLOSION_H
+#define SOUNDOFPROJECTILEEXPLOSION_H
 
-int main(int argc, char *argv[])
+
+class SoundOfProjectileExplosion
 {
-    QApplication a(argc, argv);
-    Dialog w;
-    w.show();
+public:
+    SoundOfProjectileExplosion();
+    ~SoundOfProjectileExplosion();
+};
 
-    return a.exec();
-}
+#endif // SOUNDOFPROJECTILEEXPLOSION_H

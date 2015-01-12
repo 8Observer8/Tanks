@@ -17,14 +17,22 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Dialog.h"
-#include <QApplication>
+#include "SoundOfShot.h"
 
-int main(int argc, char *argv[])
+SoundOfShot::SoundOfShot()
 {
-    QApplication a(argc, argv);
-    Dialog w;
-    w.show();
-
-    return a.exec();
+    m_sound.setSource( QUrl::fromLocalFile( ":/Sounds/Shot.wav" ) );
+    m_sound.setVolume( 0.3 );
 }
+
+SoundOfShot::~SoundOfShot()
+{
+
+}
+
+void SoundOfShot::run()
+{
+    m_sound.play();
+    while ( m_sound.isPlaying() );
+}
+

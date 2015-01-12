@@ -17,22 +17,39 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ICE_H
-#define ICE_H
+#ifndef EXPLOSIONOFPROJECTILE_H
+#define EXPLOSIONOFPROJECTILE_H
 
+#include <QTimer>
+#include <QObject>
 #include "Plane.h"
+#include <vector>
 
-class Ice : public Plane
+class ExplosionOfProjectile : public QObject, public Plane
 {
+    Q_OBJECT
+
 public:
-    Ice( QOpenGLShaderProgram *program,
-         int vertexAttr,
-         int textureAttr,
-         int textureUniform );
-    ~Ice();
+    ExplosionOfProjectile( QOpenGLShaderProgram *program, int vertexAttr,
+                           int textureAttr, int textureUniform );
+    ~ExplosionOfProjectile();
+
+    void start();
+
+    int id() const;
+
+signals:
+    void signalShowProjectileExplosion( int id, bool show );
+
+private slots:
+    void slotShowProjectileExplosion();
 
 private:
-    QOpenGLTexture *m_texture;
+    void genTextures();
+    std::vector<QOpenGLTexture*> m_textures;
+    QTimer m_timer;
+    int m_id;
+    static int m_nextId;
 };
 
-#endif // ICE_H
+#endif // EXPLOSIONOFPROJECTILE_H

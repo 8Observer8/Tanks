@@ -17,14 +17,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Dialog.h"
-#include <QApplication>
+#ifndef LARGEEXPLOSION_H
+#define LARGEEXPLOSION_H
 
-int main(int argc, char *argv[])
+
+class LargeExplosion
 {
-    QApplication a(argc, argv);
-    Dialog w;
-    w.show();
+public:
+    LargeExplosion();
+    ~LargeExplosion();
+};
 
-    return a.exec();
-}
+#endif // LARGEEXPLOSION_H

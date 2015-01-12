@@ -17,14 +17,35 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Dialog.h"
-#include <QApplication>
+#ifndef PROJECTILE_H
+#define PROJECTILE_H
 
-int main(int argc, char *argv[])
+#include "Plane.h"
+
+class Projectile : public Plane
 {
-    QApplication a(argc, argv);
-    Dialog w;
-    w.show();
+public:
+    enum Direction { Up, Left, Right, Down };
 
-    return a.exec();
-}
+    Projectile( QOpenGLShaderProgram *program, int vertexAttr,
+                int textureAttr, int textureUniform );
+    ~Projectile();
+
+    Direction direction() const;
+    void setDirection( Direction direction );
+
+    int id() const;
+
+private:
+    QOpenGLTexture *m_upTexture;
+    QOpenGLTexture *m_leftTexture;
+    QOpenGLTexture *m_downTexture;
+    QOpenGLTexture *m_rightTexture;
+
+    Direction m_direction;
+
+    int m_id;
+    static int m_nextId;
+};
+
+#endif // PROJECTILE_H

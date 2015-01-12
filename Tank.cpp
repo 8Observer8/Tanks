@@ -1,13 +1,33 @@
+/*
+    The Game Tanks
+
+    Copyright (C) 2014  Enzhaev Ivan
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "Tank.h"
+#include <QDebug>
 
 Tank::Tank( QOpenGLShaderProgram *program,
             int vertexAttr, int textureAttr,
             int textureUniform) :
     Plane( program, vertexAttr, textureAttr, textureUniform ),
-    m_direction( Tank::Right )
+    m_isReloading( false )
 {
     genTextures();
-    setTexture( m_leftTextures[0] );
+    setDirection( Tank::Up );
 }
 
 Tank::~Tank()
@@ -35,7 +55,7 @@ Tank::~Tank()
 
 void Tank::genTextures()
 {
-    QImage image( ":/Texture/TankSpriteSheet.png" );
+    QImage image( ":/Textures/TankSpriteSheet.png" );
 
     int frameHeight = image.height() / 16;
     int frameWidth = image.width() / 25;
@@ -71,10 +91,23 @@ Tank::Direction Tank::direction() const
 
 void Tank::setDirection( Tank::Direction dir )
 {
-    if ( m_direction == dir )
-        return;
-    else
-        m_direction = dir;
+    m_direction = dir;
+
+    switch( m_direction )
+    {
+        case Tank::Up:
+            setTexture( m_upTextures[0] );
+            break;
+        case Tank::Left:
+            setTexture( m_leftTextures[0] );
+            break;
+        case Tank::Down:
+            setTexture( m_downTextures[0] );
+            break;
+        case Tank::Right:
+            setTexture( m_rightTextures[0] );
+            break;
+    }
 }
 
 void Tank::nextFrame()
@@ -101,4 +134,23 @@ void Tank::nextFrame()
 
     if ( counter >= 2 )
         counter = 0;
+}
+
+void Tank::shot()
+{
+    connect( &m_timerOfReloading, SIGNAL( timeout() ),
+             this, SLOT( slotStopReloading() ) );
+    m_timerOfReloading.start( 500 );
+    m_isReloading = true;
+}
+
+bool Tank::isReloading() const
+{
+    return m_isReloading;
+}
+
+void Tank::slotStopReloading()
+{
+    m_timerOfReloading.stop();
+    m_isReloading = false;
 }

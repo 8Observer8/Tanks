@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>Texture/Ice.jpg</file>
-        <file>Texture/TankSpriteSheet.png</file>
+        <file>Textures/Ice.jpg</file>
+        <file>Textures/TankSpriteSheet.png</file>
     </qresource>
 </RCC>
