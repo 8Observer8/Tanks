@@ -311,10 +311,10 @@ void Scene::addProjectileExplosion( float x0, float y0 )
     ExplosionOfProjectile *explosion = new ExplosionOfProjectile( &m_program, m_vertexAttr, m_textureAttr, m_textureUniform );
     explosion->setX0( x0 );
     explosion->setY0( y0 );
-//    connect( explosion, SIGNAL( signalShowProjectileExplosion( int, bool ) ),
-//             this, SLOT( slotShowProjectileExplosion( int, bool ) ) );
+    connect( explosion, SIGNAL( signalShowProjectileExplosion( int, bool ) ),
+             this, SLOT( slotShowProjectileExplosion( int, bool ) ) );
     m_projectileExplosions[explosion->id()] = explosion;
-    //explosion->start();
+    explosion->start();
 
     update();
 }

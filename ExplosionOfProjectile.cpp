@@ -72,7 +72,7 @@ void ExplosionOfProjectile::slotShowProjectileExplosion()
 
 void ExplosionOfProjectile::genTextures()
 {
-    QImage image( ":/Texture/TankSpriteSheet.png" );
+    QImage image( ":/Textures/TankSpriteSheet.png" );
     image = image.mirrored( false, true );
 
     QImage frame;
