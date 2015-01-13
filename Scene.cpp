@@ -3,6 +3,8 @@
 
     Copyright (C) 2014  Enzhaev Ivan
 
+    Email: 8observer8@gmail.com
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -63,51 +65,47 @@ void Scene::slotOfMovingOfProjectiles()
 
     const float step = 10.0f;
 
-    for ( auto iterOfProjectile = m_projectiles.begin(); iterOfProjectile != m_projectiles.end(); ++iterOfProjectile )
+    //typedef std::map<int, Projectile*> TMap;
+    //TMap::iterator iterOfProjectile = m_projectiles.begin();
+    auto iterOfProjectile = m_projectiles.begin();
+
+//    for ( auto iterOfProjectile = m_projectiles.begin(); iterOfProjectile != m_projectiles.end(); ++iterOfProjectile )
+    while (iterOfProjectile != m_projectiles.end())
     {
         Projectile *projectile = iterOfProjectile->second;
 
         float x0 = projectile->x0();
         float y0 = projectile->y0();
 
+        bool doDel = false;
+
         switch ( projectile->direction() ) {
             case Projectile::Up:
                 projectile->setY0( projectile->y0() - step );
-                if ( projectile->y0() <= 0.0f )
-                {
-                    delete projectile;
-                    m_projectiles.erase( iterOfProjectile );
-                    addProjectileExplosion( x0, y0 );
-                }
+                doDel = projectile->y0() <= 0.0f;
                 break;
             case Projectile::Left:
                 projectile->setX0( projectile->x0() - step );
-                if ( projectile->x0() < 0.0f )
-                {
-                    delete projectile;
-                    m_projectiles.erase( iterOfProjectile );
-                    addProjectileExplosion( x0, y0 );
-                }
+                doDel = projectile->x0() < 0.0f;
                 break;
             case Projectile::Down:
                 projectile->setY0( projectile->y0() + step );
-                if ( projectile->y0() >= ( m_canvasHeight - projectile->height() ) )
-                {
-                    delete projectile;
-                    m_projectiles.erase( iterOfProjectile );
-                    addProjectileExplosion( x0, y0 );
-                }
+                doDel = projectile->y0() >= ( m_canvasHeight - projectile->height() );
                 break;
             case Projectile::Right:
                 projectile->setX0( projectile->x0() + step );
-                if ( projectile->x0() > ( m_canvasWidth - projectile->width() ) )
-                {
-                    delete projectile;
-                    m_projectiles.erase( iterOfProjectile );
-                    addProjectileExplosion( x0, y0 );
-                }
+                doDel = projectile->x0() > ( m_canvasWidth - projectile->width() );
                 break;
         }
+
+        if ( doDel )
+        {
+            delete projectile;
+            m_projectiles.erase( iterOfProjectile++ );
+            addProjectileExplosion( x0, y0 );
+        }
+        else
+            iterOfProjectile++;
     }
 
     update();
@@ -172,11 +170,11 @@ void Scene::paintGL()
     for ( auto it = m_projectiles.begin(); it != m_projectiles.end(); ++it )
         it->second->draw();
 
-//    for ( auto it = m_projectileExplosions.begin(); it != m_projectileExplosions.end(); ++it )
-//        it->second->draw();
+    for ( auto it = m_projectileExplosions.begin(); it != m_projectileExplosions.end(); ++it )
+        it->second->draw();
 
-//    for ( auto it = m_tankExplosions.begin(); it != m_tankExplosions.end(); ++it )
-//        it->second->draw();
+    for ( auto it = m_tankExplosions.begin(); it != m_tankExplosions.end(); ++it )
+        it->second->draw();
 
     m_program.release();
 }
